@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Divida despesas por pesos, confira cada centavo e registre acertos. Ferramenta aberta, em português, com arquivos locais.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="theme-color" content="#f7f9fc">
+  <title>Rateio Claro — despesas com os centavos à vista</title>
+  <link rel="icon" href="./assets/marca.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./src/app.mjs"></script>
+</head>
+<body>
+<!-- THESIS: Cada centavo tem destino; o rateio é uma composição de parcelas, sem um painel bancário.
+OWN-WORLD: Campo claro, tinta azul-escura e cobalto; Public Sans, Chivo, colunas alinhadas e superfícies planas.
+STORY: Selecionar uma despesa, ajustar pesos, conferir o recibo, aplicar; só depois registrar acertos declarados.
+FIRST VIEWPORT: Lista estreita à esquerda, edição e parcelas no centro, saldos e sugestões à direita. Aplicar fica junto do valor editado.
+FORM: Blocos de composição, posição 6, seed b222baf1; direção provisória, sem escolha registrada. O recibo destaca o destino do centavo restante.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->
+  <a class="skip" href="#editor">Ir para a despesa</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Rateio Claro, início"><img src="./assets/marca.svg" width="34" height="34" alt=""><span>Rateio <strong>Claro</strong></span></a>
+    <p class="brand-note">Despesas com os centavos à vista.</p>
+    <nav aria-label="Projeto" class="toolbar">
+      <button type="button" id="new-project">Novo</button><button type="button" id="open-project">Abrir JSON</button><button type="button" id="save-project" class="primary">Guardar JSON</button><button type="button" id="load-demo">Exemplo</button><button type="button" id="undo" disabled>Desfazer</button>
+    </nav>
+    <input id="file-input" type="file" accept=".json,application/json" hidden>
+  </header>
+  <main>
+    <section class="project-heading" aria-labelledby="project-name">
+      <div><h1 id="project-name">Um sábado entre amigos</h1><p id="project-context">Exemplo fictício · valores declarados em reais</p></div>
+      <form id="title-form" class="title-form"><label for="title-input">Nome do rateio</label><div class="inline"><input id="title-input" maxlength="120" required><button type="submit">Renomear</button></div></form>
+    </section>
+    <div class="summary" aria-label="Resumo aplicado"><p><span>Despesas</span><strong id="total-expenses">—</strong></p><span class="summary-plus" aria-hidden="true">/</span><p><span>Acertos registrados</span><strong id="total-transfers">—</strong></p><p class="summary-pending"><span>Falta compensar</span><strong id="total-pending">—</strong></p></div>
+    <section id="compact-receipt" class="compact-receipt" aria-label="Resumo das parcelas da despesa selecionada"></section>
+    <p id="status" class="status" role="status">Preparando o exemplo…</p>
+    <p id="draft-status" class="draft-status" hidden></p>
+    <div class="workspace">
+      <aside class="expense-rail" aria-labelledby="expense-heading">
+        <div class="section-head"><h2 id="expense-heading">Despesas <span id="expense-count" class="count"></span></h2><button id="new-expense" type="button" aria-label="Adicionar despesa">Adicionar</button></div>
+        <div id="expense-list" class="expense-list"></div>
+        <p class="rail-note">Cada despesa é dividida separadamente. Quem pagou pode ficar fora da divisão.</p>
+      </aside>
+      <section class="editor" id="editor" aria-labelledby="editor-heading">
+        <div class="section-head"><h2 id="editor-heading">Editar despesa</h2><span id="expense-state" class="state-label">Aplicada</span></div>
+        <form id="expense-form" novalidate>
+          <label for="expense-description">Descrição</label><input id="expense-description" maxlength="160" required>
+          <div class="form-grid"><div><label for="expense-payer">Quem pagou</label><select id="expense-payer" required></select></div><div><label for="expense-amount">Valor em reais</label><input id="expense-amount" inputmode="decimal" placeholder="0,00" required aria-describedby="money-help"></div></div>
+          <p id="money-help" class="help">Use vírgula ou ponto nos centavos, sem separador de milhares.</p>
+          <fieldset><legend>Quem entra na divisão</legend><p class="help">Pesos iguais dividem igualmente. Peso 2 recebe o dobro da parcela de peso 1.</p><div id="share-inputs" class="share-inputs"></div></fieldset>
+          <p id="expense-error" class="error" role="alert" hidden></p>
+          <div class="form-actions"><button type="submit" class="primary" id="apply-expense">Aplicar despesa</button><button type="button" id="discard-expense">Descartar rascunho</button><button type="button" id="delete-expense" class="danger-link">Remover</button></div>
+        </form>
+        <section class="receipt" aria-labelledby="receipt-heading"><div class="section-head"><h3 id="receipt-heading">Parcelas desta despesa</h3><span id="receipt-state">Estado aplicado</span></div><div id="receipt-content"></div><details class="method"><summary>Como o centavo é distribuído?</summary><p>Primeiro, cada parcela recebe a parte inteira de valor × peso ÷ soma dos pesos. Os centavos restantes vão para os maiores restos; no empate, vence o ID em ordem alfabética. O desempate se repete em cada despesa, sem rodízio.</p><div id="receipt-math" class="math-lines"></div><p>Separar ou juntar despesas pode mudar quem recebe o centavo extra.</p></details></section>
+      </section>
+      <aside class="settlement" aria-labelledby="balances-heading">
+        <h2 id="balances-heading">Depois dos acertos</h2><p class="help">Saldos do estado aplicado.</p><div id="balances" class="balance-list"></div>
+        <section class="suggestion-section" aria-labelledby="suggestions-heading"><div class="section-head"><h3 id="suggestions-heading">Para compensar</h3><span class="state-label">Sugestões</span></div><p class="help">Usar prepara um acerto. Só “Registrar acerto” o inclui no cálculo.</p><ol id="suggestions" class="suggestions"></ol><p class="help">Ordem estável por ID; pode haver uma solução com menos transferências.</p></section>
+      </aside>
+    </div>
+    <div class="records">
+      <section aria-labelledby="participants-heading"><div class="section-head"><h2 id="participants-heading">Pessoas do rateio</h2><span id="participant-count" class="count"></span></div><div id="participant-list" class="participant-list"></div><form id="participant-form" novalidate><label for="participant-name">Nome da pessoa</label><div class="inline"><input id="participant-name" maxlength="80" placeholder="Como a pessoa se chama" required><button type="submit" id="save-participant">Adicionar pessoa</button><button type="button" id="cancel-participant" hidden>Cancelar edição</button></div><p id="participant-editing" class="help"></p><p id="participant-error" class="error" role="alert" hidden></p></form></section>
+      <section id="transfers-section" aria-labelledby="transfers-heading"><div class="section-head"><h2 id="transfers-heading">Acertos registrados</h2><span id="transfer-count" class="count"></span></div><p class="help">Registre somente valores que o grupo declara ter acertado. O site não executa pagamentos.</p><div id="transfer-list" class="transfer-list"></div><form id="transfer-form" novalidate><div class="form-grid"><div><label for="transfer-from">Quem enviou</label><select id="transfer-from"></select></div><div><label for="transfer-to">Quem recebeu</label><select id="transfer-to"></select></div></div><div class="form-grid"><div><label for="transfer-amount">Valor do acerto em reais</label><input id="transfer-amount" inputmode="decimal" placeholder="0,00" required></div><div><label for="transfer-note">Nota <span class="optional">(opcional)</span></label><input id="transfer-note" maxlength="160"></div></div><p id="transfer-error" class="error" role="alert" hidden></p><div class="form-actions"><button type="submit" id="save-transfer">Registrar acerto</button><button type="button" id="cancel-transfer" hidden>Cancelar acerto</button></div></form></section>
+    </div>
+    <section class="exports" aria-labelledby="exports-heading"><div><h2 id="exports-heading">Leve a conta com você</h2><p>Guarde o JSON para continuar depois. Os relatórios levam apenas o estado aplicado.</p><p id="export-note" class="help">Nenhum arquivo é salvo automaticamente.</p></div><div class="export-buttons"><button type="button" data-export="memory">Memória JSON</button><button type="button" data-export="balances">Saldos CSV</button><button type="button" data-export="allocations">Parcelas CSV</button><button type="button" data-export="suggestions">Sugestões CSV</button><button type="button" data-export="markdown">Relatório Markdown</button></div></section>
+    <section class="about" aria-labelledby="about-heading"><h2 id="about-heading">Uma conta que pode ser conferida.</h2><div><p>Os valores são calculados em centavos inteiros. A memória do rateio guarda quocientes e restos exatos, mesmo quando a multiplicação dos pesos excede a precisão dos números comuns do JavaScript.</p><p>O trabalho fica nesta aba. Ao fechar ou recarregar, você depende do JSON que guardou. Até 100 pessoas, 500 despesas e 500 acertos; uma moeda por projeto.</p></div></section>
+  </main>
+  <footer><a href="https://lofranotecnologia.com.br/">LOFRANO TECNOLOGIA</a><span>Rateio Claro · código aberto MIT</span><a href="https://github.com/martinlofranodeoliveira/rateio-claro">Código e documentação</a></footer>
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-message"><form method="dialog"><h2 id="confirm-title">Substituir o trabalho?</h2><p id="confirm-message"></p><div class="form-actions"><button value="cancel">Cancelar</button><button value="accept" class="primary" id="confirm-accept">Continuar</button></div></form></dialog>
+  <noscript>Ative o JavaScript para calcular o rateio. O código aberto também pode ser executado localmente.</noscript>
+</body>
+</html>

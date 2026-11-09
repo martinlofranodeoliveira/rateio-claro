@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "title": "=Texto <&> \"ação\", | 😀",
+  "currency": "BRL",
+  "analysis": {
+    "totalExpenseCents": 103,
+    "totalTransferCents": 3,
+    "pendingCents": 85,
+    "participants": [
+      {
+        "id": "a",
+        "name": "=1+1",
+        "paidCents": 0,
+        "shareCents": 15,
+        "sentCents": 3,
+        "receivedCents": 0,
+        "balanceCents": -12
+      },
+      {
+        "id": "b",
+        "name": "+SUM(A1:A2)",
+        "paidCents": 0,
+        "shareCents": 29,
+        "sentCents": 0,
+        "receivedCents": 0,
+        "balanceCents": -29
+      },
+      {
+        "id": "c",
+        "name": "-2+3",
+        "paidCents": 0,
+        "shareCents": 15,
+        "sentCents": 0,
+        "receivedCents": 0,
+        "balanceCents": -15
+      },
+      {
+        "id": "d",
+        "name": "@SUM(A1:A2)",
+        "paidCents": 0,
+        "shareCents": 29,
+        "sentCents": 0,
+        "receivedCents": 0,
+        "balanceCents": -29
+      },
+      {
+        "id": "e",
+        "name": "Aço <&> \"ação\", | _x0041_ 😀",
+        "paidCents": 103,
+        "shareCents": 15,
+        "sentCents": 0,
+        "receivedCents": 3,
+        "balanceCents": 85
+      }
+    ],
+    "receipts": [
+      {
+        "expenseId": "texto",
+        "payer": "e",
+        "amountCents": 103,
+        "totalWeight": 7,
+        "allocations": [
+          {
+            "participant": "a",
+            "weight": 1,
+            "numerator": "103",
+            "denominator": "7",
+            "baseCents": 14,
+            "remainder": "5",
+            "extraCents": 1,
+            "shareCents": 15
+          },
+          {
+            "participant": "b",
+            "weight": 2,
+            "numerator": "206",
+            "denominator": "7",
+            "baseCents": 29,
+            "remainder": "3",
+            "extraCents": 0,
+            "shareCents": 29
+          },
+          {
+            "participant": "c",
+            "weight": 1,
+            "numerator": "103",
+            "denominator": "7",
+            "baseCents": 14,
+            "remainder": "5",
+            "extraCents": 1,
+            "shareCents": 15
+          },
+          {
+            "participant": "d",
+            "weight": 2,
+            "numerator": "206",
+            "denominator": "7",
+            "baseCents": 29,
+            "remainder": "3",
+            "extraCents": 0,
+            "shareCents": 29
+          },
+          {
+            "participant": "e",
+            "weight": 1,
+            "numerator": "103",
+            "denominator": "7",
+            "baseCents": 14,
+            "remainder": "5",
+            "extraCents": 1,
+            "shareCents": 15
+          }
+        ]
+      }
+    ],
+    "suggestions": [
+      {
+        "from": "a",
+        "to": "e",
+        "amountCents": 12
+      },
+      {
+        "from": "b",
+        "to": "e",
+        "amountCents": 29
+      },
+      {
+        "from": "c",
+        "to": "e",
+        "amountCents": 15
+      },
+      {
+        "from": "d",
+        "to": "e",
+        "amountCents": 29
+      }
+    ]
+  }
+}

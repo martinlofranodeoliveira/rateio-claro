@@ -1,0 +1,67 @@
+{
+  "verifiedAt": "2026-11-09T08:14:33.510918+00:00",
+  "scope": "Chrome UI on local source; synthetic demo. Manual checks, not browser automation tests in CI.",
+  "demo": {
+    "expenseCents": 26901,
+    "transferCents": 2000,
+    "pendingCents": 3450,
+    "lunchSharesCents": {
+      "ana": 3001,
+      "bruno": 3000,
+      "clara": 3000,
+      "diego": 3000
+    }
+  },
+  "observed": {
+    "weightPreviewLeavesAppliedBalances": true,
+    "expenseDraftRetainedAcrossSelection": true,
+    "applyingExpensePreservesTransfers": true,
+    "invalidMoneyPreservesRawAndApplied": true,
+    "escapeCancelsDialog": true,
+    "suggestionOnlyPrefills": true,
+    "explicitTransferPreservesExpenseCost": true,
+    "overpaymentReversesBalances": true,
+    "undoRestoresAppliedState": true,
+    "referencedParticipantRemovalRejected": true,
+    "homonymsHaveDistinctIds": true,
+    "newParticipantDraftCanBeDiscarded": true,
+    "invalidImportPreservesDraft": true,
+    "cancelImportPreservesDraft": true,
+    "validImportPreservesRecordedTransfer": true,
+    "projectJsonRoundtripSameBytes": true
+  },
+  "roundtrip": {
+    "bytes": 1751,
+    "sha256": "8da7bb3ea4eb3b11da3fefc9b80abaad409bb66ab912f501713c1a6ef7f0f3b7"
+  },
+  "viewportsCss": [
+    {
+      "width": 1280,
+      "height": 900,
+      "pageOverflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "pageOverflow": false,
+      "compactReceiptTop": 467.484375,
+      "compactReceiptBottom": 626.484375
+    },
+    {
+      "width": 1920,
+      "height": 1000,
+      "pageOverflow": false
+    }
+  ],
+  "visualReview": {
+    "initialDisposition": "fix",
+    "materialFindings": 1,
+    "verdictDisposition": "ship",
+    "scope": "Only finding 1 scored resolved: actual allocation/extra cent in mobile first viewport. Not a certification or whole-surface guarantee."
+  },
+  "limits": [
+    "No physical touch test or screen reader session.",
+    "Design detector ran once in degraded regex mode, with no findings; computed contrast was not checked by it.",
+    "External calculator proof is documented separately in INTEROPERABILIDADE.md."
+  ]
+}

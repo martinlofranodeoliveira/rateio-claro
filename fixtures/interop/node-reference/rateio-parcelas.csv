@@ -1,0 +1,11 @@
+expense_id,description,payer,participant_id,name,weight,total_weight,base_cents,remainder,extra_cents,share_cents
+almoco,Almoço compartilhado,ana,ana,Ana,1,4,3000,1,1,3001
+almoco,Almoço compartilhado,ana,bruno,Bruno,1,4,3000,1,0,3000
+almoco,Almoço compartilhado,ana,clara,Clara,1,4,3000,1,0,3000
+almoco,Almoço compartilhado,ana,diego,Diego,1,4,3000,1,0,3000
+ingressos,Ingressos da visita,clara,ana,Ana,1,2,4000,0,0,4000
+ingressos,Ingressos da visita,clara,clara,Clara,1,2,4000,0,0,4000
+transporte,Transporte do grupo,bruno,ana,Ana,1,6,1150,0,0,1150
+transporte,Transporte do grupo,bruno,bruno,Bruno,2,6,2300,0,0,2300
+transporte,Transporte do grupo,bruno,clara,Clara,1,6,1150,0,0,1150
+transporte,Transporte do grupo,bruno,diego,Diego,2,6,2300,0,0,2300

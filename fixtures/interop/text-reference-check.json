@@ -1,0 +1,58 @@
+{
+  "balances": {
+    "a": -12,
+    "b": -29,
+    "c": -15,
+    "d": -29,
+    "e": 85
+  },
+  "csvDataRows": {
+    "rateio-parcelas.csv": 5,
+    "rateio-saldos.csv": 5,
+    "rateio-sugestoes.csv": 4
+  },
+  "files": {
+    "rateio-memoria.json": {
+      "sha256": "e46c4ba7ac46471f631ff50d0417c5381c7be544304af563e3dedc02ecd5d014",
+      "size": 3066
+    },
+    "rateio-parcelas.csv": {
+      "sha256": "590048e2cc7ab3cdad013337a222c406ae7616b1a21e96a9b325f8c6521bd722",
+      "size": 500
+    },
+    "rateio-projeto.json": {
+      "sha256": "97d413dd6e3f62a1db3cbabf735526051fc48fb933d3ae79e129339c5f1b8f8a",
+      "size": 1124
+    },
+    "rateio-relatorio.md": {
+      "sha256": "65b668e25a0c37820fda0fcf45d1b107ca16fe90f62557bff60b44e805c899e7",
+      "size": 3325
+    },
+    "rateio-saldos.csv": {
+      "sha256": "1547da7876df8d726198e5e33a6eda76ce2bf74c8fc03d365771105d50f694fd",
+      "size": 235
+    },
+    "rateio-sugestoes.csv": {
+      "sha256": "e2d538a8b59e681bad53af81d1a75253832b6388e142afb7230b6c370bec21d8",
+      "size": 314
+    }
+  },
+  "independentArithmetic": "Python Fraction and arbitrary-precision integers; no production JS imported",
+  "markdown": {
+    "bytes": 3325,
+    "sectionsAndTotalsChecked": true,
+    "semanticTablesChecked": 4
+  },
+  "project": {
+    "expenses": 1,
+    "participants": 5,
+    "transfers": 1
+  },
+  "provenance": "node-reference",
+  "status": "ok",
+  "totals": {
+    "pendingCents": 85,
+    "totalExpenseCents": 103,
+    "totalTransferCents": 3
+  }
+}

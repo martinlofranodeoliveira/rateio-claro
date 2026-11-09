@@ -1,0 +1,4 @@
+status,from_id,from_name,to_id,to_name,amount_cents
+suggestion,clara,Clara,ana,Ana,150
+suggestion,diego,Diego,ana,Ana,1700
+suggestion,diego,Diego,bruno,Bruno,1600

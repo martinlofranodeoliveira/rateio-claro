@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    name: Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['22', '24']
+    steps:
+      - name: Obter o código
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Preparar Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - name: Conferir a árvore declarada sem scripts de instalação
+        run: npm ci --ignore-scripts
+      - name: Testar núcleo, arquivos e distribuição
+        run: npm test
+      - name: Gerar somente a distribuição pública
+        run: npm run build
+      - name: Conferir bytes, fontes e manifesto SHA-256
+        run: npm run check
+
+  independent:
+    name: Leitor Python independente e fixtures do consumidor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter o código
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Preparar Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Testar o leitor independente sem importar JavaScript
+        run: python3 -m unittest discover -s tests/python -v
+      - name: Conferir os seis arquivos de referência
+        run: python3 tools/check_downloads.py fixtures/interop/node-reference --provenance node-reference
+      - name: Conferir evidência armazenada do consumidor, sem alegar nova execução
+        run: python3 tools/verify_libreoffice.py --check-fixtures
+
+  libreoffice:
+    name: Consumidor LibreOffice em namespace de rede
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter o código
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Preparar Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Instalar somente as ferramentas opcionais de QA
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends libreoffice-calc util-linux
+          python3 -m pip install openpyxl==3.1.5
+      - name: Importar CSV e recalcular a auditoria com perfil novo e sem rede
+        run: sudo "$(command -v python3)" tools/verify_libreoffice.py fixtures/interop/node-reference --provenance node-reference --output-dir local/ci-libreoffice

@@ -1,0 +1,6 @@
+participant_id,name,paid_cents,share_cents,sent_cents,received_cents,balance_cents
+a,'=1+1,0,15,3,0,-12
+b,'+SUM(A1:A2),0,29,0,0,-29
+c,'-2+3,0,15,0,0,-15
+d,'@SUM(A1:A2),0,29,0,0,-29
+e,"Aço <&> ""ação"", | _x0041_ 😀",103,15,0,3,85

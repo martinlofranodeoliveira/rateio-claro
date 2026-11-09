@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "title": "=Texto <&> \"ação\", | 😀",
+  "currency": "BRL",
+  "participants": [
+    {
+      "id": "a",
+      "name": "=1+1"
+    },
+    {
+      "id": "b",
+      "name": "+SUM(A1:A2)"
+    },
+    {
+      "id": "c",
+      "name": "-2+3"
+    },
+    {
+      "id": "d",
+      "name": "@SUM(A1:A2)"
+    },
+    {
+      "id": "e",
+      "name": "Aço <&> \"ação\", | _x0041_ 😀"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "texto",
+      "description": "@Despesa <&> \"ação\", | _x0041_",
+      "payer": "e",
+      "amountCents": 103,
+      "shares": [
+        {
+          "participant": "a",
+          "weight": 1
+        },
+        {
+          "participant": "b",
+          "weight": 2
+        },
+        {
+          "participant": "c",
+          "weight": 1
+        },
+        {
+          "participant": "d",
+          "weight": 2
+        },
+        {
+          "participant": "e",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "transfers": [
+    {
+      "id": "texto-acerto",
+      "from": "a",
+      "to": "e",
+      "amountCents": 3,
+      "note": "=Nota <&> \"ação\", | 😀"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+status,from_id,from_name,to_id,to_name,amount_cents
+suggestion,a,'=1+1,e,"Aço <&> ""ação"", | _x0041_ 😀",12
+suggestion,b,'+SUM(A1:A2),e,"Aço <&> ""ação"", | _x0041_ 😀",29
+suggestion,c,'-2+3,e,"Aço <&> ""ação"", | _x0041_ 😀",15
+suggestion,d,'@SUM(A1:A2),e,"Aço <&> ""ação"", | _x0041_ 😀",29

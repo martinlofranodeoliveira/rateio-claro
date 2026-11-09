@@ -1,0 +1,44 @@
+[
+  {
+    "bytes": 1751,
+    "download": "rateio-projeto.json",
+    "file": "rateio-projeto.json",
+    "sha256": "8da7bb3ea4eb3b11da3fefc9b80abaad409bb66ab912f501713c1a6ef7f0f3b7",
+    "source": "Chrome UI Blob download"
+  },
+  {
+    "bytes": 4561,
+    "download": "rateio-memoria.json",
+    "file": "rateio-memoria.json",
+    "sha256": "1851e37235dbef61e89efb04441341053ff9f1c55415e281bba3e22226eb0a5d",
+    "source": "Chrome UI Blob download"
+  },
+  {
+    "bytes": 208,
+    "download": "rateio-saldos.csv",
+    "file": "rateio-saldos.csv",
+    "sha256": "621f184a70dd8de3ea5e2c52f8762ab09d6c4fe535923fe1394d529f05cafcb7",
+    "source": "Chrome UI Blob download"
+  },
+  {
+    "bytes": 754,
+    "download": "rateio-parcelas.csv",
+    "file": "rateio-parcelas.csv",
+    "sha256": "37a63b55676ee3f1e9e699d227702fe661bc545f2b37ecd300451540df0de9a6",
+    "source": "Chrome UI Blob download"
+  },
+  {
+    "bytes": 163,
+    "download": "rateio-sugestoes.csv",
+    "file": "rateio-sugestoes.csv",
+    "sha256": "5a1bbfed0da7fc8f13982bb500e6bef67524bebdea7f514b662c54f609a0d4b6",
+    "source": "Chrome UI Blob download"
+  },
+  {
+    "bytes": 3617,
+    "download": "rateio-relatorio.md",
+    "file": "rateio-relatorio.md",
+    "sha256": "289335d94a874385dac6a2e901347fa372fe9ec10649ee5c5046d5fdb22aa8e2",
+    "source": "Chrome UI Blob download"
+  }
+]

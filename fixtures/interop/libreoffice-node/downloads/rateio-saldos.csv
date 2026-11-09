@@ -1,0 +1,5 @@
+participant_id,name,paid_cents,share_cents,sent_cents,received_cents,balance_cents
+ana,Ana,12001,8151,0,2000,1850
+bruno,Bruno,6900,5300,0,0,1600
+clara,Clara,8000,8150,0,0,-150
+diego,Diego,0,5300,2000,0,-3300

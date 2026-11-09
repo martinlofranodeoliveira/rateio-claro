@@ -1,0 +1,14 @@
+dist/
+release/
+local/
+.dist-build-*/
+__pycache__/
+*.py[cod]
+node_modules/
+.venv-interop/
+.impeccable/
+.openai/
+.env*
+.venv/
+PRODUCT.md
+CONTRACT.md

@@ -1,0 +1,16 @@
+{
+  "name": "rateio-claro",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Rateio de despesas em centavos com pesos, memória de cálculo e acertos declarados.",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "dev": "node scripts/dev.mjs",
+    "release": "python3 scripts/release.py"
+  }
+}

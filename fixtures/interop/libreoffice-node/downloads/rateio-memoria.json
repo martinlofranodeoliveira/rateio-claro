@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "title": "Um sábado entre amigos",
+  "currency": "BRL",
+  "analysis": {
+    "totalExpenseCents": 26901,
+    "totalTransferCents": 2000,
+    "pendingCents": 3450,
+    "participants": [
+      {
+        "id": "ana",
+        "name": "Ana",
+        "paidCents": 12001,
+        "shareCents": 8151,
+        "sentCents": 0,
+        "receivedCents": 2000,
+        "balanceCents": 1850
+      },
+      {
+        "id": "bruno",
+        "name": "Bruno",
+        "paidCents": 6900,
+        "shareCents": 5300,
+        "sentCents": 0,
+        "receivedCents": 0,
+        "balanceCents": 1600
+      },
+      {
+        "id": "clara",
+        "name": "Clara",
+        "paidCents": 8000,
+        "shareCents": 8150,
+        "sentCents": 0,
+        "receivedCents": 0,
+        "balanceCents": -150
+      },
+      {
+        "id": "diego",
+        "name": "Diego",
+        "paidCents": 0,
+        "shareCents": 5300,
+        "sentCents": 2000,
+        "receivedCents": 0,
+        "balanceCents": -3300
+      }
+    ],
+    "receipts": [
+      {
+        "expenseId": "almoco",
+        "payer": "ana",
+        "amountCents": 12001,
+        "totalWeight": 4,
+        "allocations": [
+          {
+            "participant": "ana",
+            "weight": 1,
+            "numerator": "12001",
+            "denominator": "4",
+            "baseCents": 3000,
+            "remainder": "1",
+            "extraCents": 1,
+            "shareCents": 3001
+          },
+          {
+            "participant": "bruno",
+            "weight": 1,
+            "numerator": "12001",
+            "denominator": "4",
+            "baseCents": 3000,
+            "remainder": "1",
+            "extraCents": 0,
+            "shareCents": 3000
+          },
+          {
+            "participant": "clara",
+            "weight": 1,
+            "numerator": "12001",
+            "denominator": "4",
+            "baseCents": 3000,
+            "remainder": "1",
+            "extraCents": 0,
+            "shareCents": 3000
+          },
+          {
+            "participant": "diego",
+            "weight": 1,
+            "numerator": "12001",
+            "denominator": "4",
+            "baseCents": 3000,
+            "remainder": "1",
+            "extraCents": 0,
+            "shareCents": 3000
+          }
+        ]
+      },
+      {
+        "expenseId": "ingressos",
+        "payer": "clara",
+        "amountCents": 8000,
+        "totalWeight": 2,
+        "allocations": [
+          {
+            "participant": "ana",
+            "weight": 1,
+            "numerator": "8000",
+            "denominator": "2",
+            "baseCents": 4000,
+            "remainder": "0",
+            "extraCents": 0,
+            "shareCents": 4000
+          },
+          {
+            "participant": "clara",
+            "weight": 1,
+            "numerator": "8000",
+            "denominator": "2",
+            "baseCents": 4000,
+            "remainder": "0",
+            "extraCents": 0,
+            "shareCents": 4000
+          }
+        ]
+      },
+      {
+        "expenseId": "transporte",
+        "payer": "bruno",
+        "amountCents": 6900,
+        "totalWeight": 6,
+        "allocations": [
+          {
+            "participant": "ana",
+            "weight": 1,
+            "numerator": "6900",
+            "denominator": "6",
+            "baseCents": 1150,
+            "remainder": "0",
+            "extraCents": 0,
+            "shareCents": 1150
+          },
+          {
+            "participant": "bruno",
+            "weight": 2,
+            "numerator": "13800",
+            "denominator": "6",
+            "baseCents": 2300,
+            "remainder": "0",
+            "extraCents": 0,
+            "shareCents": 2300
+          },
+          {
+            "participant": "clara",
+            "weight": 1,
+            "numerator": "6900",
+            "denominator": "6",
+            "baseCents": 1150,
+            "remainder": "0",
+            "extraCents": 0,
+            "shareCents": 1150
+          },
+          {
+            "participant": "diego",
+            "weight": 2,
+            "numerator": "13800",
+            "denominator": "6",
+            "baseCents": 2300,
+            "remainder": "0",
+            "extraCents": 0,
+            "shareCents": 2300
+          }
+        ]
+      }
+    ],
+    "suggestions": [
+      {
+        "from": "clara",
+        "to": "ana",
+        "amountCents": 150
+      },
+      {
+        "from": "diego",
+        "to": "ana",
+        "amountCents": 1700
+      },
+      {
+        "from": "diego",
+        "to": "bruno",
+        "amountCents": 1600
+      }
+    ]
+  }
+}

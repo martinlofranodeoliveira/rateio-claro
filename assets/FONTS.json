@@ -1,0 +1,44 @@
+{
+  "fonts": [
+    {
+      "file": "public-sans.ttf",
+      "upstream": "https://github.com/google/fonts/blob/main/ofl/publicsans/PublicSans[wght].ttf",
+      "downloadURL": "https://raw.githubusercontent.com/google/fonts/main/ofl/publicsans/PublicSans%5Bwght%5D.ttf",
+      "gitBlobSha1": "c747e1de8c8deadb6ba852eb9a0a7d893b8bd36f",
+      "sha256": "d75a7dc1a27eb9e336d5b33f55489d2ecb5621bf694d5c43b2415bce2ca830a8",
+      "bytes": 103316,
+      "modified": false,
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "file": "PUBLIC-SANS-OFL.txt",
+      "upstream": "https://github.com/google/fonts/blob/main/ofl/publicsans/OFL.txt",
+      "downloadURL": "https://raw.githubusercontent.com/google/fonts/main/ofl/publicsans/OFL.txt",
+      "gitBlobSha1": "9eef1e9900892e8e971c1e731546f7987241641b",
+      "sha256": "157a9e77f7580246e97c769490e2e977ae94399f9d30f4556015c41fe8c28bac",
+      "bytes": 4390,
+      "modified": false,
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "file": "chivo.ttf",
+      "upstream": "https://github.com/google/fonts/blob/main/ofl/chivo/Chivo[wght].ttf",
+      "downloadURL": "https://raw.githubusercontent.com/google/fonts/main/ofl/chivo/Chivo%5Bwght%5D.ttf",
+      "gitBlobSha1": "ed0990edcf472d26cf6cf95d3574d7b5e85d0093",
+      "sha256": "801674cbeff749011a0186b2c932dc9158187a8ca4ca6598db2a1f5c7c4342d1",
+      "bytes": 160636,
+      "modified": false,
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "file": "CHIVO-OFL.txt",
+      "upstream": "https://github.com/google/fonts/blob/main/ofl/chivo/OFL.txt",
+      "downloadURL": "https://raw.githubusercontent.com/google/fonts/main/ofl/chivo/OFL.txt",
+      "gitBlobSha1": "4e5e18cc08ec70f44a65bcdc8bebbb466cdd8012",
+      "sha256": "c9b69fa18c372df2b187b49efc57b1ea643b86a938e5af32f6b5a7af1017c891",
+      "bytes": 4385,
+      "modified": false,
+      "license": "SIL Open Font License 1.1"
+    }
+  ]
+}

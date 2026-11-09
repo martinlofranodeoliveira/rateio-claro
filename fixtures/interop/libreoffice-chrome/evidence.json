@@ -1,0 +1,281 @@
+{
+  "commandPathPlaceholders": {
+    "[EVIDENCE]": "this evidence directory",
+    "[TEMP]": "unique temporary private directory, removed after execution",
+    "[TEMP_URI]": "file URI of that temporary directory"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/unshare",
+        "--user",
+        "--map-root-user",
+        "--net",
+        "--",
+        "/usr/lib/libreoffice/program/soffice",
+        "--version"
+      ],
+      "returnCode": 0,
+      "stderr": "",
+      "stdout": "LibreOffice 26.2.6.3 620(Build:3)\n\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/unshare",
+        "--user",
+        "--map-root-user",
+        "--net",
+        "--",
+        "/usr/lib/libreoffice/program/soffice",
+        "-env:UserInstallation=[TEMP_URI]/profile",
+        "--headless",
+        "--invisible",
+        "--norestore",
+        "--nodefault",
+        "--nolockcheck",
+        "--nofirststartwizard",
+        "--infilter=Text - txt - csv (StarCalc):44,34,76,1,1/2/2/2/3/2/4/2/5/2/6/2/7/2,1033,true,false,false,false,false,0,false,false,false",
+        "--convert-to",
+        "ods",
+        "--outdir",
+        "[TEMP]/rateio-saldos",
+        "[EVIDENCE]/downloads/rateio-saldos.csv"
+      ],
+      "returnCode": 0,
+      "stderr": "",
+      "stdout": "convert [EVIDENCE]/downloads/rateio-saldos.csv as a Calc document -> [TEMP]/rateio-saldos/rateio-saldos.ods using filter : calc8\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/unshare",
+        "--user",
+        "--map-root-user",
+        "--net",
+        "--",
+        "/usr/lib/libreoffice/program/soffice",
+        "-env:UserInstallation=[TEMP_URI]/profile",
+        "--headless",
+        "--invisible",
+        "--norestore",
+        "--nodefault",
+        "--nolockcheck",
+        "--nofirststartwizard",
+        "--infilter=Text - txt - csv (StarCalc):44,34,76,1,1/2/2/2/3/2/4/2/5/2/6/2/7/2/8/2/9/2/10/2/11/2,1033,true,false,false,false,false,0,false,false,false",
+        "--convert-to",
+        "ods",
+        "--outdir",
+        "[TEMP]/rateio-parcelas",
+        "[EVIDENCE]/downloads/rateio-parcelas.csv"
+      ],
+      "returnCode": 0,
+      "stderr": "",
+      "stdout": "convert [EVIDENCE]/downloads/rateio-parcelas.csv as a Calc document -> [TEMP]/rateio-parcelas/rateio-parcelas.ods using filter : calc8\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/unshare",
+        "--user",
+        "--map-root-user",
+        "--net",
+        "--",
+        "/usr/lib/libreoffice/program/soffice",
+        "-env:UserInstallation=[TEMP_URI]/profile",
+        "--headless",
+        "--invisible",
+        "--norestore",
+        "--nodefault",
+        "--nolockcheck",
+        "--nofirststartwizard",
+        "--infilter=Text - txt - csv (StarCalc):44,34,76,1,1/2/2/2/3/2/4/2/5/2/6/2,1033,true,false,false,false,false,0,false,false,false",
+        "--convert-to",
+        "ods",
+        "--outdir",
+        "[TEMP]/rateio-sugestoes",
+        "[EVIDENCE]/downloads/rateio-sugestoes.csv"
+      ],
+      "returnCode": 0,
+      "stderr": "",
+      "stdout": "convert [EVIDENCE]/downloads/rateio-sugestoes.csv as a Calc document -> [TEMP]/rateio-sugestoes/rateio-sugestoes.ods using filter : calc8\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/unshare",
+        "--user",
+        "--map-root-user",
+        "--net",
+        "--",
+        "/usr/lib/libreoffice/program/soffice",
+        "-env:UserInstallation=[TEMP_URI]/profile",
+        "--headless",
+        "--invisible",
+        "--norestore",
+        "--nodefault",
+        "--nolockcheck",
+        "--nofirststartwizard",
+        "--convert-to",
+        "xlsx:Calc MS Excel 2007 XML",
+        "--outdir",
+        "[TEMP]/audit-converted",
+        "[EVIDENCE]/audit-source.xlsx"
+      ],
+      "returnCode": 0,
+      "stderr": "",
+      "stdout": "convert [EVIDENCE]/audit-source.xlsx as a Calc document -> [TEMP]/audit-converted/audit-source.xlsx using filter : Calc MS Excel 2007 XML\n"
+    }
+  ],
+  "csvImportOptions": {
+    "rateio-parcelas.csv": "44,34,76,1,1/2/2/2/3/2/4/2/5/2/6/2/7/2/8/2/9/2/10/2/11/2,1033,true,false,false,false,false,0,false,false,false",
+    "rateio-saldos.csv": "44,34,76,1,1/2/2/2/3/2/4/2/5/2/6/2/7/2,1033,true,false,false,false,false,0,false,false,false",
+    "rateio-sugestoes.csv": "44,34,76,1,1/2/2/2/3/2/4/2/5/2/6/2,1033,true,false,false,false,false,0,false,false,false"
+  },
+  "files": {
+    "acquisition.json": {
+      "sha256": "a88caa308879ed833d1958d37bb250c74b36746312505c6e8608138165224703",
+      "size": 1342
+    },
+    "audit-libreoffice.xlsx": {
+      "sha256": "39c7113d4ad2a6ef227575f5b1d7bcb5bc9503cec100993059dac9b82e2f43d9",
+      "size": 11907
+    },
+    "audit-source.xlsx": {
+      "sha256": "1b2fee8a35c306e31141d79e07a5658bf1078d128945a8ba2106aaa3111730ea",
+      "size": 9635
+    },
+    "downloads/rateio-memoria.json": {
+      "sha256": "1851e37235dbef61e89efb04441341053ff9f1c55415e281bba3e22226eb0a5d",
+      "size": 4561
+    },
+    "downloads/rateio-parcelas.csv": {
+      "sha256": "37a63b55676ee3f1e9e699d227702fe661bc545f2b37ecd300451540df0de9a6",
+      "size": 754
+    },
+    "downloads/rateio-projeto.json": {
+      "sha256": "8da7bb3ea4eb3b11da3fefc9b80abaad409bb66ab912f501713c1a6ef7f0f3b7",
+      "size": 1751
+    },
+    "downloads/rateio-relatorio.md": {
+      "sha256": "289335d94a874385dac6a2e901347fa372fe9ec10649ee5c5046d5fdb22aa8e2",
+      "size": 3617
+    },
+    "downloads/rateio-saldos.csv": {
+      "sha256": "621f184a70dd8de3ea5e2c52f8762ab09d6c4fe535923fe1394d529f05cafcb7",
+      "size": 208
+    },
+    "downloads/rateio-sugestoes.csv": {
+      "sha256": "5a1bbfed0da7fc8f13982bb500e6bef67524bebdea7f514b662c54f609a0d4b6",
+      "size": 163
+    },
+    "rateio-parcelas-import.ods": {
+      "sha256": "4d5810d59ddd9db173719227f3f7d3bcd473137cb34716cff29fad3b32d23590",
+      "size": 15288
+    },
+    "rateio-saldos-import.ods": {
+      "sha256": "24f9a13994746d5f34d5e7b774894f399a9fb2e39b0a6f4cb73242a230357e18",
+      "size": 12252
+    },
+    "rateio-sugestoes-import.ods": {
+      "sha256": "92e377de0ef13dd8a46602ba575b2a13608d422b53c4ca22c4a493da1efabd51",
+      "size": 11948
+    }
+  },
+  "isolation": {
+    "existingUserProfileRead": false,
+    "freshTemporaryProfile": true,
+    "globalKernelPolicyChanged": false,
+    "macrosDisabledInTemporaryProfile": true,
+    "osNetworkSandbox": "unshare --user --map-root-user --net",
+    "privateHomeAndXdg": true
+  },
+  "kind": "actual-libreoffice-execution",
+  "libreofficeVersion": "LibreOffice 26.2.6.3 620(Build:3)",
+  "provenance": "chrome-download",
+  "results": {
+    "audit": {
+      "expectedValues": "independently authored integer literals",
+      "formulaCachesChecked": 189,
+      "formulaTolerance": "0",
+      "scenarios": 5,
+      "scope": "small integer cases: demo, ASCII tie, combined versus split expenses, declared overpayment"
+    },
+    "csvImports": {
+      "rateio-parcelas.csv": {
+        "allCellsText": true,
+        "cellsCompared": 121,
+        "equal": true,
+        "formulasAbsent": true
+      },
+      "rateio-saldos.csv": {
+        "allCellsText": true,
+        "cellsCompared": 35,
+        "equal": true,
+        "formulasAbsent": true
+      },
+      "rateio-sugestoes.csv": {
+        "allCellsText": true,
+        "cellsCompared": 24,
+        "equal": true,
+        "formulasAbsent": true
+      }
+    },
+    "independentDownloads": {
+      "balances": {
+        "ana": 1850,
+        "bruno": 1600,
+        "clara": -150,
+        "diego": -3300
+      },
+      "csvDataRows": {
+        "rateio-parcelas.csv": 10,
+        "rateio-saldos.csv": 4,
+        "rateio-sugestoes.csv": 3
+      },
+      "files": {
+        "rateio-memoria.json": {
+          "sha256": "1851e37235dbef61e89efb04441341053ff9f1c55415e281bba3e22226eb0a5d",
+          "size": 4561
+        },
+        "rateio-parcelas.csv": {
+          "sha256": "37a63b55676ee3f1e9e699d227702fe661bc545f2b37ecd300451540df0de9a6",
+          "size": 754
+        },
+        "rateio-projeto.json": {
+          "sha256": "8da7bb3ea4eb3b11da3fefc9b80abaad409bb66ab912f501713c1a6ef7f0f3b7",
+          "size": 1751
+        },
+        "rateio-relatorio.md": {
+          "sha256": "289335d94a874385dac6a2e901347fa372fe9ec10649ee5c5046d5fdb22aa8e2",
+          "size": 3617
+        },
+        "rateio-saldos.csv": {
+          "sha256": "621f184a70dd8de3ea5e2c52f8762ab09d6c4fe535923fe1394d529f05cafcb7",
+          "size": 208
+        },
+        "rateio-sugestoes.csv": {
+          "sha256": "5a1bbfed0da7fc8f13982bb500e6bef67524bebdea7f514b662c54f609a0d4b6",
+          "size": 163
+        }
+      },
+      "independentArithmetic": "Python Fraction and arbitrary-precision integers; no production JS imported",
+      "markdown": {
+        "bytes": 3617,
+        "sectionsAndTotalsChecked": true,
+        "semanticTablesChecked": 6
+      },
+      "project": {
+        "expenses": 3,
+        "participants": 4,
+        "transfers": 1
+      },
+      "provenance": "chrome-download",
+      "status": "ok",
+      "totals": {
+        "pendingCents": 3450,
+        "totalExpenseCents": 26901,
+        "totalTransferCents": 2000
+      }
+    }
+  },
+  "scope": "Exact semantic all-text import of three canonical CSVs; separately authored formula audit with small integer literal expected results. CSV numeric lexemes are text, independently checked as integers by Python. No generic Excel/LibreOffice exact arithmetic or arbitrary workbook guarantee.",
+  "status": "ok",
+  "version": 1
+}

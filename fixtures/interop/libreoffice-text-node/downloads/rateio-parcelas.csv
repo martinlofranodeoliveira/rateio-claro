@@ -1,0 +1,6 @@
+expense_id,description,payer,participant_id,name,weight,total_weight,base_cents,remainder,extra_cents,share_cents
+texto,"'@Despesa <&> ""ação"", | _x0041_",e,a,'=1+1,1,7,14,5,1,15
+texto,"'@Despesa <&> ""ação"", | _x0041_",e,b,'+SUM(A1:A2),2,7,29,3,0,29
+texto,"'@Despesa <&> ""ação"", | _x0041_",e,c,'-2+3,1,7,14,5,1,15
+texto,"'@Despesa <&> ""ação"", | _x0041_",e,d,'@SUM(A1:A2),2,7,29,3,0,29
+texto,"'@Despesa <&> ""ação"", | _x0041_",e,e,"Aço <&> ""ação"", | _x0041_ 😀",1,7,14,5,1,15
