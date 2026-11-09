@@ -17,7 +17,7 @@ rateio-sugestoes.csv
 rateio-relatorio.md
 ```
 
-Os 16 testes Python incluem ouro literal da demonstração, empate de centavo, despesas juntas e separadas, projeto vazio, pagador fora dos beneficiários, homônimos, produto acima de 2^53, sinal de sobrepagamento, invariância da ordem e reaplicação das sugestões. Um cenário literal exige três sugestões do algoritmo mesmo havendo uma alternativa válida com duas transferências. Mutações alteram cada um dos seis exports, os nomes dos arquivos, uma célula ODS importada e um cache de fórmula XLSX. O leitor recusa essas alterações.
+Os testes Python incluem ouro literal da demonstração, empate de centavo, despesas juntas e separadas, projeto vazio, pagador fora dos beneficiários, homônimos, produto acima de 2^53, sinal de sobrepagamento, invariância da ordem e reaplicação das sugestões. Um cenário literal exige três sugestões do algoritmo mesmo havendo uma alternativa válida com duas transferências. Mutações alteram cada um dos seis exports, os nomes dos arquivos, uma célula ODS importada e um cache de fórmula XLSX. O leitor recusa essas alterações.
 
 ```bash
 python3 -m unittest discover -s tests/python -v
@@ -55,6 +55,12 @@ O LibreOffice abriu, recalculou e salvou esse arquivo em XLSX. O verificador com
 Essa auditoria usa números pequenos e inteiros representáveis pelo consumidor. Ela não prova aritmética exata genérica do Excel, não substitui o núcleo BigInt e não garante outros programas, locais de importação ou salvamentos posteriores. Os produtos grandes do contrato são conferidos pelo oráculo de inteiros/Fraction, não por fórmulas em ponto flutuante.
 
 ## Repetir ou conferir o registro
+
+O consumidor atual executa todos os subprocessos, inclusive `--version`, com diretório de trabalho no temporário privado de modo 0700. Antes de iniciar, copia os três CSVs e `audit-source.xlsx` para `inputs/` nesse temporário. Entradas, perfil e destinos vistos pelo subprocesso ficam nessa árvore; somente o processo Python externo copia os resultados para a pasta de evidência. Não são necessárias mudanças de permissões do checkout nem políticas globais do kernel.
+
+Na segunda tentativa de CI, a pré-checagem do namespace passou e a fase de identificar a versão falhou com `cd: can't cd to [PRIVATE_PATH]`. O [wrapper oficial da série LibreOffice 7.3](https://raw.githubusercontent.com/LibreOffice/core/libreoffice-7-3/desktop/scripts/soffice.sh) salva e restaura o diretório de trabalho. Isso sustenta a inferência de que o processo mapeado não conseguia atravessar o caminho privado do checkout; não atribui a causa à versão do Ubuntu. O job de consumidor permanece fixado no Ubuntu 22.04 como ambiente escolhido para o ensaio.
+
+Após essa mudança houve um único ensaio local novo, com LibreOffice 26.2.6.3 e origem `node-reference`, registrado em `local/new-run-cwd-temp-node/evidence.json` (pasta local ignorada na distribuição). Ele preservou as 180 células CSV e conferiu os mesmos 189 resultados literais de fórmulas. Os testes com subprocessos simulados verificam diretório, modo 0700, igualdade dos bytes copiados e ausência de caminhos do checkout nos argumentos. Esse resultado local não substitui a confirmação de uma nova execução de CI. As três evidências históricas em `fixtures/interop/` foram preservadas, sem reescrever seus comandos ou alegar que usaram essa mudança.
 
 Verificar artefatos guardados usa só a biblioteca padrão Python e não executa novamente o LibreOffice:
 

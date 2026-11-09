@@ -1,7 +1,10 @@
 """Failure-path checks use subprocess doubles; no LibreOffice execution."""
 import contextlib
 import io
+import json
 from pathlib import Path
+import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -14,6 +17,50 @@ import verify_libreoffice as consumer
 
 
 class ConsumerDiagnostics(unittest.TestCase):
+    def test_every_child_uses_private_cwd_and_only_staged_input_paths(self):
+        fixture = ROOT / "fixtures/interop/libreoffice-node"
+        downloads = ROOT / "fixtures/interop/node-reference"
+        with tempfile.TemporaryDirectory(prefix="rateio-cwd-test-") as host:
+            output = Path(host) / "evidence"
+            calls, destinations = [], set()
+
+            def simulated(argv, **kwargs):
+                cwd = Path(kwargs["cwd"])
+                calls.append(argv)
+                self.assertEqual(stat.S_IMODE(cwd.stat().st_mode), 0o700)
+                self.assertEqual(Path(kwargs["env"]["HOME"]).parent, cwd)
+                self.assertNotIn("PWD", kwargs["env"])
+                self.assertNotIn("CDPATH", kwargs["env"])
+                self.assertNotIn(str(ROOT), " ".join(argv))
+                self.assertNotIn(str(output), " ".join(argv))
+                staged = cwd / "inputs"
+                self.assertEqual({p.name for p in staged.iterdir()}, {*consumer.HEADERS, "audit-source.xlsx"})
+                for name in consumer.HEADERS:
+                    self.assertEqual((staged / name).read_bytes(), (downloads / name).read_bytes())
+                self.assertEqual((staged / "audit-source.xlsx").read_bytes(), (fixture / "audit-source.xlsx").read_bytes())
+                if "--version" in argv:
+                    return subprocess.CompletedProcess(argv, 0, "LibreOffice simulated-test\n", "")
+                source = Path(argv[-1])
+                self.assertEqual(source.parent, staged)
+                destination = Path(argv[argv.index("--outdir") + 1])
+                self.assertEqual(destination.parent, cwd)
+                self.assertNotIn(destination, destinations)
+                destinations.add(destination)
+                self.assertIn(f"-env:UserInstallation={(cwd / 'profile').as_uri()}", argv)
+                artifact = "audit-libreoffice.xlsx" if source.suffix == ".xlsx" else f"{source.stem}-import.ods"
+                generated = destination / ("audit-source.xlsx" if source.suffix == ".xlsx" else f"{source.stem}.ods")
+                shutil.copyfile(fixture / artifact, generated)
+                return subprocess.CompletedProcess(argv, 0, "simulated conversion\n", "")
+
+            with patch.object(consumer, "make_audit", side_effect=lambda path: shutil.copyfile(fixture / "audit-source.xlsx", path)), patch.object(consumer.subprocess, "run", side_effect=simulated):
+                result = consumer.external_run(downloads, output, "node-reference", Path("/usr/bin/libreoffice"), Path("/usr/bin/unshare"))
+            self.assertEqual(result["status"], "ok")
+            self.assertEqual(len(calls), 5)
+            evidence = json.loads((output / "evidence.json").read_text())
+            self.assertTrue(evidence["isolation"]["inputsStagedInTemporaryDirectory"])
+            self.assertFalse(evidence["isolation"]["sourceCheckoutPathsPassedToConsumer"])
+            self.assertTrue(all(command["cwd"] == "[TEMP]" for command in evidence["commands"]))
+
     def invoke_failure(self, mode):
         with tempfile.TemporaryDirectory(prefix="rateio-diagnostic-test-") as temporary:
             output = Path(temporary) / "evidence"

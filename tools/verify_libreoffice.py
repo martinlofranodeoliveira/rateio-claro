@@ -230,8 +230,14 @@ def external_run(downloads, output, provenance, executable, unshare, acquisition
     commands, options = [], {}
     with tempfile.TemporaryDirectory(prefix="rateio-libreoffice-") as temporary:
         temporary = Path(temporary)
-        for subdir in ("home", "config", "cache", "data", "runtime", "profile"):
+        for subdir in ("home", "config", "cache", "data", "runtime", "profile", "inputs"):
             (temporary / subdir).mkdir(mode=0o700)
+        inputs = temporary / "inputs"
+        # The namespace's mapped root may not traverse the checkout owner's
+        # private home. Give the consumer only copies beneath its own cwd.
+        for name in HEADERS:
+            shutil.copyfile(output / "downloads" / name, inputs / name)
+        shutil.copyfile(output / "audit-source.xlsx", inputs / "audit-source.xlsx")
         profile = temporary / "profile"
         (profile / "user").mkdir()
         (profile / "user/registrymodifications.xcu").write_text('''<?xml version="1.0" encoding="UTF-8"?><oor:items xmlns:oor="http://openoffice.org/2001/registry"><item oor:path="/org.openoffice.Office.Common/Security/Scripting"><prop oor:name="MacroSecurityLevel" oor:op="fuse"><value>3</value></prop></item><item oor:path="/org.openoffice.Office.Calc/Content/Update"><prop oor:name="Link" oor:op="fuse"><value>0</value></prop></item></oor:items>''', encoding="utf-8")
@@ -252,12 +258,12 @@ def external_run(downloads, output, provenance, executable, unshare, acquisition
 
         def run(argv, phase):
             try:
-                process = subprocess.run(argv, env=environment, check=False, capture_output=True, text=True, errors="replace", timeout=60)
+                process = subprocess.run(argv, cwd=temporary, env=environment, check=False, capture_output=True, text=True, errors="replace", timeout=60)
             except subprocess.TimeoutExpired as error:
                 raise failure(phase, "timeout", error.stderr) from None
             except OSError as error:
                 raise failure(phase, "not-started", str(error)) from None
-            commands.append({"phase": phase, "argv": [portable(value) for value in argv], "returnCode": process.returncode, "stdout": portable(process.stdout), "stderr": portable(process.stderr)})
+            commands.append({"phase": phase, "cwd": portable(str(temporary)), "argv": [portable(value) for value in argv], "returnCode": process.returncode, "stdout": portable(process.stdout), "stderr": portable(process.stderr)})
             if process.returncode != 0:
                 raise failure(phase, process.returncode, process.stderr)
             return process
@@ -273,18 +279,18 @@ def external_run(downloads, output, provenance, executable, unshare, acquisition
             options[name] = filter_options
             destination = temporary / Path(name).stem
             destination.mkdir()
-            run([*common, f"--infilter=Text - txt - csv (StarCalc):{filter_options}", "--convert-to", "ods", "--outdir", str(destination), str(output / "downloads" / name)], f"importar-{name}")
+            run([*common, f"--infilter=Text - txt - csv (StarCalc):{filter_options}", "--convert-to", "ods", "--outdir", str(destination), str(inputs / name)], f"importar-{name}")
             produced = destination / f"{Path(name).stem}.ods"
             require(produced.is_file(), "LibreOffice não produziu importação CSV")
             shutil.copyfile(produced, output / f"{Path(name).stem}-import.ods")
         destination = temporary / "audit-converted"
         destination.mkdir()
-        run([*common, "--convert-to", "xlsx:Calc MS Excel 2007 XML", "--outdir", str(destination), str(output / "audit-source.xlsx")], "recalcular-auditoria")
+        run([*common, "--convert-to", "xlsx:Calc MS Excel 2007 XML", "--outdir", str(destination), str(inputs / "audit-source.xlsx")], "recalcular-auditoria")
         require((destination / "audit-source.xlsx").is_file(), "LibreOffice não recalculou auditoria")
         shutil.copyfile(destination / "audit-source.xlsx", output / "audit-libreoffice.xlsx")
     results = check_artifacts(output, provenance)
     file_names = [path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()]
-    evidence = {"version": 1, "kind": "actual-libreoffice-execution", "status": "ok", "provenance": provenance, "libreofficeVersion": version, "commands": commands, "commandPathPlaceholders": {"[TEMP]": "unique temporary private directory, removed after execution", "[TEMP_URI]": "file URI of that temporary directory", "[EVIDENCE]": "this evidence directory"}, "csvImportOptions": options, "isolation": {"freshTemporaryProfile": True, "privateHomeAndXdg": True, "existingUserProfileRead": False, "macrosDisabledInTemporaryProfile": True, "osNetworkSandbox": "unshare --user --map-root-user --net", "globalKernelPolicyChanged": False}, "results": results, "files": {name: digest(output / name) for name in sorted(file_names)}, "scope": "Exact semantic all-text import of three canonical CSVs; separately authored formula audit with small integer literal expected results. CSV numeric lexemes are text, independently checked as integers by Python. No generic Excel/LibreOffice exact arithmetic or arbitrary workbook guarantee."}
+    evidence = {"version": 1, "kind": "actual-libreoffice-execution", "status": "ok", "provenance": provenance, "libreofficeVersion": version, "commands": commands, "commandPathPlaceholders": {"[TEMP]": "unique temporary private directory, removed after execution", "[TEMP_URI]": "file URI of that temporary directory", "[EVIDENCE]": "this evidence directory"}, "csvImportOptions": options, "isolation": {"freshTemporaryProfile": True, "privateHomeAndXdg": True, "childWorkingDirectory": "[TEMP]", "inputsStagedInTemporaryDirectory": True, "sourceCheckoutPathsPassedToConsumer": False, "existingUserProfileRead": False, "macrosDisabledInTemporaryProfile": True, "osNetworkSandbox": "unshare --user --map-root-user --net", "globalKernelPolicyChanged": False}, "results": results, "files": {name: digest(output / name) for name in sorted(file_names)}, "scope": "Exact semantic all-text import of three canonical CSVs; separately authored formula audit with small integer literal expected results. CSV numeric lexemes are text, independently checked as integers by Python. No generic Excel/LibreOffice exact arithmetic or arbitrary workbook guarantee."}
     (output / "evidence.json").write_text(json.dumps(evidence, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     return {"status": "ok", "mode": "actual-external-execution", "newExternalExecution": True, "provenance": provenance, "libreofficeVersion": version, "results": results}
 
