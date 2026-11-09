@@ -63,5 +63,17 @@
     "No physical touch test or screen reader session.",
     "Design detector ran once in degraded regex mode, with no findings; computed contrast was not checked by it.",
     "External calculator proof is documented separately in INTEROPERABILIDADE.md."
-  ]
+  ],
+  "publicDemo": {
+    "observedIn": [
+      "Chrome",
+      "in-app browser"
+    ],
+    "expenseCents": 26901,
+    "transferCents": 2000,
+    "pendingCents": 3450,
+    "pageOverflow": false,
+    "jsonSameBytes": true,
+    "iabWarningsOrErrors": 0
+  }
 }

@@ -4,6 +4,8 @@ Divida despesas de um grupo por pesos, confira o destino de cada centavo e regis
 
 O foco é o rateio de cada despesa e sua relação com os acertos. Um acerto reduz ou inverte saldos; ele não aumenta o custo do passeio. Sugestões ficam separadas dos registros e exigem uma ação explícita para virar acertos.
 
+[Usar no navegador](https://martinlofranodeoliveira.github.io/rateio-claro/) · [Baixar versão 1.0.0](https://github.com/martinlofranodeoliveira/rateio-claro/releases/tag/v1.0.0) · [Como o cálculo funciona](docs/FORMATO.md)
+
 Projeto aberto da [LOFRANO TECNOLOGIA](https://lofranotecnologia.com.br/), sob [licença MIT](LICENSE). O exemplo é fictício e autoral. Não há conta, integração bancária ou execução de pagamentos.
 
 ![Interface do Rateio Claro com despesas, parcelas e saldos](docs/preview.png)
@@ -13,6 +15,8 @@ Projeto aberto da [LOFRANO TECNOLOGIA](https://lofranotecnologia.com.br/), sob [
 Use Node.js 22 ou 24 e npm. O aplicativo e o build não têm dependências de execução externas; não é necessário instalar pacotes npm.
 
 ```sh
+git clone https://github.com/martinlofranodeoliveira/rateio-claro.git
+cd rateio-claro
 npm test
 npm run build
 npm run check
@@ -23,7 +27,7 @@ Abra [http://127.0.0.1:4173/](http://127.0.0.1:4173/). O servidor de desenvolvim
 
 A distribuição é HTML, CSS, fontes locais e módulos JavaScript estáticos. O servidor acima serve apenas os arquivos durante o desenvolvimento. O build gera `dist/` a partir de uma lista fechada de arquivos e inclui um manifesto SHA-256. Consulte os passos e a evidência em [VERIFICACAO.md](docs/VERIFICACAO.md).
 
-Endereço previsto para uma publicação futura em GitHub Pages: [martinlofranodeoliveira.github.io/rateio-claro](https://martinlofranodeoliveira.github.io/rateio-claro/). Esta indicação de destino não confirma que o site já esteja publicado.
+A [demonstração pública](https://martinlofranodeoliveira.github.io/rateio-claro/) usa o mesmo código estático. Os arquivos do site foram confrontados com o build local; a aquisição pelo Chrome está em [CONFERENCIA-NAVEGADOR.json](docs/CONFERENCIA-NAVEGADOR.json).
 
 ## Usar o rateio
 
@@ -71,3 +75,7 @@ O núcleo independente da interface está em [src/core.mjs](src/core.mjs). [src/
 Os testes cobrem conservação de centavos, empates, pesos grandes, homônimos, acertos, sobrepagamentos, imutabilidade, importação estrita e relatórios. Um [consumidor Python independente](tools/check_downloads.py) reconstrói as parcelas com `Fraction`, sem importar o código JavaScript. Instruções reproduzíveis e limites de cada evidência estão em [VERIFICACAO.md](docs/VERIFICACAO.md) e [INTEROPERABILIDADE.md](docs/INTEROPERABILIDADE.md).
 
 O código usa [MIT](LICENSE). As fontes locais mantêm suas licenças SIL Open Font License 1.1 e sua [proveniência](assets/FONTS.json).
+
+## Contribuir
+
+Sugira melhorias com um cenário fictício e o resultado esperado. Para alterações no cálculo ou nos arquivos, acrescente um caso que confronte o comportamento e execute os testes JavaScript e Python. O sistema visual está documentado em [DESIGN.md](DESIGN.md).

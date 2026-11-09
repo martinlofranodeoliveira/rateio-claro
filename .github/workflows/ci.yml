@@ -57,7 +57,7 @@ jobs:
 
   libreoffice:
     name: Consumidor LibreOffice em namespace de rede
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Obter o código
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -70,5 +70,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends libreoffice-calc util-linux
           python3 -m pip install openpyxl==3.1.5
+      - name: Conferir isolamento de usuário e rede antes do consumidor
+        run: sudo unshare --user --map-root-user --net -- true
       - name: Importar CSV e recalcular a auditoria com perfil novo e sem rede
         run: sudo "$(command -v python3)" tools/verify_libreoffice.py fixtures/interop/node-reference --provenance node-reference --output-dir local/ci-libreoffice

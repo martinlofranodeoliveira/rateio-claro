@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "publicHttpFilesCompared": 14,
+  "files": [
+    {
+      "file": "LICENSE",
+      "http": 200,
+      "bytes": 1075,
+      "sha256": "b4e2fd2c6ed8314813b95386f7ea1debaa4f1cf83f769fda5a9eea5399cd531e"
+    },
+    {
+      "file": "assets/CHIVO-OFL.txt",
+      "http": 200,
+      "bytes": 4385,
+      "sha256": "c9b69fa18c372df2b187b49efc57b1ea643b86a938e5af32f6b5a7af1017c891"
+    },
+    {
+      "file": "assets/FONTS.json",
+      "http": 200,
+      "bytes": 1934,
+      "sha256": "5d4d31097f465f7b77cc4e0424c39a44306ed1efd6dd7e560778bf1b56097f04"
+    },
+    {
+      "file": "assets/PUBLIC-SANS-OFL.txt",
+      "http": 200,
+      "bytes": 4390,
+      "sha256": "157a9e77f7580246e97c769490e2e977ae94399f9d30f4556015c41fe8c28bac"
+    },
+    {
+      "file": "assets/chivo.ttf",
+      "http": 200,
+      "bytes": 160636,
+      "sha256": "801674cbeff749011a0186b2c932dc9158187a8ca4ca6598db2a1f5c7c4342d1"
+    },
+    {
+      "file": "assets/marca.svg",
+      "http": 200,
+      "bytes": 217,
+      "sha256": "c38556602b073ad87ad16d9ed3be36b0320f43fa1ce412ae0019af430ae3ae4a"
+    },
+    {
+      "file": "assets/public-sans.ttf",
+      "http": 200,
+      "bytes": 103316,
+      "sha256": "d75a7dc1a27eb9e336d5b33f55489d2ecb5621bf694d5c43b2415bce2ca830a8"
+    },
+    {
+      "file": "build-manifest.json",
+      "http": 200,
+      "bytes": 2000,
+      "sha256": "abf30cc2fd6da014ed04e527d3a36c7f2f537298fcd265d41095cd5bddb36f17"
+    },
+    {
+      "file": "index.html",
+      "http": 200,
+      "bytes": 10551,
+      "sha256": "f4bff379c312f15c5e66ec8b34807d196e715d9db10907f5a79f606ccb160a66"
+    },
+    {
+      "file": "src/app.mjs",
+      "http": 200,
+      "bytes": 25909,
+      "sha256": "170a84657384d452adce6392ce757691809ebba0e25d21595d11bf2ffadb4796"
+    },
+    {
+      "file": "src/core.mjs",
+      "http": 200,
+      "bytes": 16530,
+      "sha256": "74ee7b4102b311eb6640900de88e9572f821111be928ff36c0bc58014bdcdba9"
+    },
+    {
+      "file": "src/demo.mjs",
+      "http": 200,
+      "bytes": 1407,
+      "sha256": "897fe804f93a3315819118fd17e2cef27bb43ffbc889d17c2a4fabad393fa063"
+    },
+    {
+      "file": "src/io.mjs",
+      "http": 200,
+      "bytes": 13600,
+      "sha256": "d79a87a9f41c645c950e7260fe038b46864ca734a738f9bb72c19cdef75e898b"
+    },
+    {
+      "file": "styles.css",
+      "http": 200,
+      "bytes": 14461,
+      "sha256": "931acb7e3f220fefe8d0af6c6ab91949207adfa0706bc9c87efee9c9fc5547f6"
+    }
+  ],
+  "publicChromeProjectJsonSameBytes": true
+}

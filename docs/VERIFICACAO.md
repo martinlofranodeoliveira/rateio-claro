@@ -59,8 +59,14 @@ A conferência manual em Chrome foi registrada em [CONFERENCIA-NAVEGADOR.json](C
 
 ## Publicação e release
 
-Destino previsto para GitHub Pages: [martinlofranodeoliveira.github.io/rateio-claro](https://martinlofranodeoliveira.github.io/rateio-claro/). O endereço é futuro até que haja registro de deploy bem-sucedido. Um build local aprovado não comprova que esse endereço está disponível.
+A [demonstração pública](https://martinlofranodeoliveira.github.io/rateio-claro/) foi aberta no Chrome e no navegador integrado. Os 14 arquivos HTTP servíveis coincidiram com o build local; `.nojekyll` é um controle de hospedagem vazio, conferido no pacote. O JSON baixado da página pública preservou os 1.751 bytes do exemplo. [Hashes da conferência pública](CONFERENCIA-PUBLICA.json).
 
-A evidência de publicação deve identificar o commit, a execução de CI e a execução de Pages do mesmo commit. A evidência de release deve identificar os quatro assets — fonte ZIP, distribuição estática ZIP, projeto JSON de exemplo e `SHA256SUMS` — e conferir os bytes baixados novamente, hashes e integridade dos ZIP. Contagens e tamanhos devem vir dos arquivos finais medidos.
+As execuções de [CI](https://github.com/martinlofranodeoliveira/rateio-claro/actions/workflows/ci.yml) e [Pages](https://github.com/martinlofranodeoliveira/rateio-claro/actions/workflows/pages.yml) identificam o commit verificado. A [release 1.0.0](https://github.com/martinlofranodeoliveira/rateio-claro/releases/tag/v1.0.0) reúne quatro assets: fonte ZIP, distribuição estática ZIP, projeto JSON de exemplo e `SHA256SUMS`. O empacotador exige uma árvore Git própria limpa e usa os blobs do commit.
+
+```sh
+npm run release -- --output-dir release/v1.0.0
+```
+
+Os ZIPs têm ordem, permissões e timestamps fixos. A fonte contém somente arquivos rastreados; contexto local, ambientes virtuais e dados de sessão ficam excluídos. A conferência final inclui download público, hashes, CRCs e confronto dos membros com a árvore Git.
 
 Este documento não atribui resultado a Chrome, LibreOffice, CI, Pages ou release sem o registro correspondente. Para resultados externos, consultar a proveniência e os relatórios ligados em [INTEROPERABILIDADE.md](INTEROPERABILIDADE.md) e a evidência adicionada junto à publicação final.

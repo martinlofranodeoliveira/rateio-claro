@@ -6,6 +6,7 @@ import argparse
 from decimal import Decimal
 import json
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -237,15 +238,31 @@ def external_run(downloads, output, provenance, executable, unshare, acquisition
         environment = {"PATH": "/usr/bin:/bin", "HOME": str(temporary / "home"), "XDG_CONFIG_HOME": str(temporary / "config"), "XDG_CACHE_HOME": str(temporary / "cache"), "XDG_DATA_HOME": str(temporary / "data"), "XDG_RUNTIME_DIR": str(temporary / "runtime"), "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8", "SAL_USE_VCLPLUGIN": "svp"}
         prefix = [str(unshare), "--user", "--map-root-user", "--net", "--", str(executable)]
 
-        def run(argv):
-            process = subprocess.run(argv, env=environment, check=False, capture_output=True, text=True, timeout=60)
-            def portable(value):
-                return value.replace(temporary.as_uri(), "[TEMP_URI]").replace(str(temporary), "[TEMP]").replace(str(output), "[EVIDENCE]")
-            commands.append({"argv": [portable(value) for value in argv], "returnCode": process.returncode, "stdout": portable(process.stdout), "stderr": portable(process.stderr)})
-            require(process.returncode == 0, "LibreOffice ou isolamento retornou falha")
+        def portable(value):
+            if isinstance(value, bytes):
+                value = value.decode("utf-8", errors="replace")
+            value = (value or "").replace(temporary.as_uri(), "[TEMP_URI]").replace(str(temporary), "[TEMP]").replace(str(output), "[EVIDENCE]")
+            return re.sub(r"(?:file://)?/(?:home|Users)/[^\s\"'<>]+", "[PRIVATE_PATH]", value)
+
+        def failure(phase, return_code, stderr):
+            # Redact before clipping: a long private path must not leak a prefix.
+            short = " ".join(re.sub(r"[\x00-\x1f\x7f]", " ", portable(stderr)).split())
+            short = short[:480] + ("…" if len(short) > 480 else "")
+            return CheckError(f"Fase {phase}; returnCode={return_code}; stderr={short or '(vazio)'}")
+
+        def run(argv, phase):
+            try:
+                process = subprocess.run(argv, env=environment, check=False, capture_output=True, text=True, errors="replace", timeout=60)
+            except subprocess.TimeoutExpired as error:
+                raise failure(phase, "timeout", error.stderr) from None
+            except OSError as error:
+                raise failure(phase, "not-started", str(error)) from None
+            commands.append({"phase": phase, "argv": [portable(value) for value in argv], "returnCode": process.returncode, "stdout": portable(process.stdout), "stderr": portable(process.stderr)})
+            if process.returncode != 0:
+                raise failure(phase, process.returncode, process.stderr)
             return process
 
-        version = run([*prefix, "--version"]).stdout.strip()
+        version = run([*prefix, "--version"], "identificar-versao").stdout.strip()
         require("LibreOffice" in version, "Versão de consumidor não identificada")
         common = [*prefix, f"-env:UserInstallation={profile.as_uri()}", "--headless", "--invisible", "--norestore", "--nodefault", "--nolockcheck", "--nofirststartwizard"]
         for name, headers in HEADERS.items():
@@ -256,13 +273,13 @@ def external_run(downloads, output, provenance, executable, unshare, acquisition
             options[name] = filter_options
             destination = temporary / Path(name).stem
             destination.mkdir()
-            run([*common, f"--infilter=Text - txt - csv (StarCalc):{filter_options}", "--convert-to", "ods", "--outdir", str(destination), str(output / "downloads" / name)])
+            run([*common, f"--infilter=Text - txt - csv (StarCalc):{filter_options}", "--convert-to", "ods", "--outdir", str(destination), str(output / "downloads" / name)], f"importar-{name}")
             produced = destination / f"{Path(name).stem}.ods"
             require(produced.is_file(), "LibreOffice não produziu importação CSV")
             shutil.copyfile(produced, output / f"{Path(name).stem}-import.ods")
         destination = temporary / "audit-converted"
         destination.mkdir()
-        run([*common, "--convert-to", "xlsx:Calc MS Excel 2007 XML", "--outdir", str(destination), str(output / "audit-source.xlsx")])
+        run([*common, "--convert-to", "xlsx:Calc MS Excel 2007 XML", "--outdir", str(destination), str(output / "audit-source.xlsx")], "recalcular-auditoria")
         require((destination / "audit-source.xlsx").is_file(), "LibreOffice não recalculou auditoria")
         shutil.copyfile(destination / "audit-source.xlsx", output / "audit-libreoffice.xlsx")
     results = check_artifacts(output, provenance)
